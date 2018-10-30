@@ -4,17 +4,23 @@ package io.github.woxtu.overlord.reactnative
 
 import react.RClass
 import react.RProps
+import react.ReactElement
 import kotlin.js.Promise
+
+external interface FlatListProps<T> : RProps {
+    interface Info<T> {
+        var item: T
+        var index: Int
+    }
+
+    var data: Array<T>
+    var keyExtractor: (T, Int) -> String
+    var renderItem: (Info<T>) -> ReactElement
+}
 
 external object StyleSheet {
     fun create(obj: dynamic): dynamic
 }
-
-external interface TextProps : RProps {
-
-}
-
-external val Text: RClass<TextProps>
 
 external interface ViewProps : RProps {
     var style: dynamic

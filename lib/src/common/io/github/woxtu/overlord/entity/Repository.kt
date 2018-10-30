@@ -9,5 +9,6 @@ data class Repository(
         val name: String,
         val owner: Owner,
         @SerialName("html_url")
-        val htmlUrl: String
+        val htmlUrl: String,
+        val description: String?
 )

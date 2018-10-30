@@ -1,46 +1,37 @@
 package io.github.woxtu.overlord
 
+import io.github.woxtu.overlord.components.appSearchHeader
+import io.github.woxtu.overlord.components.repositoryList
+import io.github.woxtu.overlord.entity.Repository
+import io.github.woxtu.overlord.nativebase.Container
+import io.github.woxtu.overlord.nativebase.Content
 import io.github.woxtu.overlord.reactnative.NativeModules
-import io.github.woxtu.overlord.reactnative.StyleSheet
-import io.github.woxtu.overlord.reactnative.Text
-import io.github.woxtu.overlord.reactnative.View
 import io.github.woxtu.overlord.response.SearchRepositories
-import kotlinext.js.jsObject
 import kotlinx.serialization.json.JSON
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
-
-external fun alert(message: Any?)
+import react.*
 
 @JsName("App")
-class App : RComponent<RProps, RState>() {
+class App : RComponent<RProps, App.State>() {
+    interface State : RState {
+        var repositories: Array<Repository>
+    }
+
+    override fun App.State.init() {
+        repositories = arrayOf()
+    }
+
     override fun componentDidMount() {
-        NativeModules.Api.searchRepositories("kotlin", 0, 5)
-                .then {
-                    alert(JSON.nonstrict.parse<SearchRepositories>(it).toString())
-                }
+        NativeModules.Api.searchRepositories("kotlin", 0, 30)
+                .then { JSON.nonstrict.parse<SearchRepositories>(it) }
+                .then { setState { repositories = it.items.toTypedArray() } }
     }
 
     override fun RBuilder.render() {
-        View {
-            attrs {
-                style = styles.container
-            }
-            Text {
-                +"Hello, Kotlin/JS!"
+        Container {
+            appSearchHeader()
+            Content {
+                repositoryList(state.repositories)
             }
         }
     }
 }
-
-private val styles = StyleSheet.create(
-        jsObject<dynamic> {
-            container = jsObject<dynamic> {
-                flex = 1
-                justifyContent = "center"
-                alignItems = "center"
-            }
-        }
-)
