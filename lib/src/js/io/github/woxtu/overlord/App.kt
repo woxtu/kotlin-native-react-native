@@ -22,7 +22,7 @@ class App : RComponent<RProps, App.State>() {
 
     override fun componentDidMount() {
         NativeModules.Api.searchRepositories("kotlin", 0, 30)
-                .then { JSON.nonstrict.parse<SearchRepositories>(it) }
+                .then { JSON.nonstrict.parse(SearchRepositories.serializer(), it) }
                 .then { setState { repositories = it.items.toTypedArray() } }
     }
 
