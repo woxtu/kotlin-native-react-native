@@ -1,4 +1,5 @@
 #import "Api.h"
+#import <React/RCTUtils.h>
 #import <lib/lib.h>
 
 @implementation Api
@@ -19,7 +20,7 @@ RCT_REMAP_METHOD(searchRepositories,
                          callback:^(NSString* response, LibKotlinThrowable* e)
   {
     if (e != nil) {
-      reject(@"-1", e.message, nil);
+      reject(RCTErrorUnspecified, e.message, RCTErrorWithMessage(e.message));
     } else {
       resolve(response);
     }

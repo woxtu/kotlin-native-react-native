@@ -1,14 +1,15 @@
 package io.github.woxtu.overlord.components
 
 import io.github.woxtu.overlord.nativebase.*
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
+import react.*
 
-class AppSearchHeader : RComponent<AppSearchHeader.Props, RState>() {
+class AppSearchHeader : RComponent<AppSearchHeader.Props, AppSearchHeader.State>() {
     interface Props : RProps {
+        var onSubmit: (String) -> Unit
+    }
 
+    interface State : RState {
+        var query: String
     }
 
     override fun RBuilder.render() {
@@ -25,12 +26,15 @@ class AppSearchHeader : RComponent<AppSearchHeader.Props, RState>() {
                 }
                 Input {
                     attrs {
+                        onChangeText = { setState { query = it } }
+                        onSubmitEditing = { props.onSubmit(state.query) }
                         placeholder = "Search repositories"
                     }
                 }
             }
             Button {
                 attrs {
+                    onPress = { props.onSubmit(state.query) }
                     transparent = true
                 }
                 Text {
@@ -41,6 +45,8 @@ class AppSearchHeader : RComponent<AppSearchHeader.Props, RState>() {
     }
 }
 
-fun RBuilder.appSearchHeader() = child(AppSearchHeader::class) {
-
+fun RBuilder.appSearchHeader(onSubmit: (String) -> Unit) = child(AppSearchHeader::class) {
+    attrs {
+        this.onSubmit = onSubmit
+    }
 }

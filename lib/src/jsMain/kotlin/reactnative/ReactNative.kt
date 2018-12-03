@@ -15,8 +15,12 @@ external interface FlatListProps<T> : RProps {
 
     var data: Array<T>
     var keyExtractor: (T, Int) -> String
+    var onEndReached: (dynamic) -> Unit
+    var onEndReachedThreshold: Double
     var renderItem: (Info<T>) -> ReactElement
 }
+
+external val FlatList: RClass<FlatListProps<*>>
 
 external object StyleSheet {
     fun create(obj: dynamic): dynamic

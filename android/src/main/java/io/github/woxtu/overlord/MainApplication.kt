@@ -19,7 +19,7 @@ class MainApplication : Application(), ReactApplication {
         override fun getPackages(): List<ReactPackage> =
                 listOf(
                         MainReactPackage(),
-                        GitHubPackage()
+                        ApiPackage()
                 )
     }
 
