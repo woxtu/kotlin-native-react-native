@@ -25,9 +25,6 @@ kotlin {
     }
     sourceSets {
         commonMain {
-            kotlin {
-                srcDir 'src/common'
-            }
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$kotlinx_coroutines_version"
@@ -37,15 +34,9 @@ kotlin {
         }
         mobileMain {
             dependsOn commonMain
-            kotlin {
-                srcDir 'src/mobile'
-            }
         }
         androidMain {
             dependsOn mobileMain
-            kotlin {
-                srcDir 'src/android'
-            }
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
@@ -55,9 +46,6 @@ kotlin {
         }
         iosMain {
             dependsOn mobileMain
-            kotlin {
-                srcDir 'src/ios'
-            }
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlinx_coroutines_version"
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlinx_serialization_version"
@@ -65,9 +53,6 @@ kotlin {
             }
         }
         jsMain {
-            kotlin {
-                srcDir 'src/js'
-            }
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-js'
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$kotlinx_serialization_version"
